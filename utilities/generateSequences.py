@@ -31,7 +31,7 @@ if(p<0 or p>100):
 #name of the fasta output file
 file_name = sys.argv[4]
 #letters to choose from for sequence
-nucleic_acids = ['A','T','C','G']
+nucleic_acids = ['A','U','C','G']
 #open file object to write to
 file_object = open(file_name,"w")
 #initialize empty parent sequence

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-#author: Andrew Smith
-#last edited 092420 @ 10:37
-#description: to read in a fasta file
+# author: Andrew Smith
+# date: 100420 @ 17:44
+# file: main.py
+# description: to analyze an RNA sequence in fasta format
 
-import sys
-import time
-from structures import Sequence, Gene
-from read_fasta import *
+import sys # for command line arguments
+from time import time # to time program execution
+from fasta_utilities import *
 
 #Proper Script Usage
 if(len(sys.argv)!=4):
@@ -17,19 +17,14 @@ infile = str(sys.argv[1])
 outfile = str(sys.argv[2])
 searchpattern = str(sys.argv[3])
 
-start_time = time.time()# start execution timer
-
+start_time = time()# start execution timer
 # We obtain parent sequence, write it to file, and keep in memory
 # because we compare each sequence against it
 parent = get_next_sequence(infile,outfile,"w+",searchpattern)
-# scan_for_genes(parent)
-last_line = parent.last_line
+offset = parent.offset
 
-while(last_line!=-1): # while file is not empty
-    print(last_line)
-    seq = get_next_sequence(infile,outfile,"a",searchpattern,last_line,parent) # read next sequence
-    last_line = seq.last_line
+while(offset!=-1): # while file is not empty
+    seq = get_next_sequence(infile,outfile,"a",searchpattern,offset,parent) # read next sequence
+    offset = seq.offset #update offset to utilize seek method for python fileio
 
-print("--- %s seconds ---" % (time.time() - start_time))
-
-
+print("--- %s seconds ---" % (time() - start_time))
