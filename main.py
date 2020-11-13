@@ -6,7 +6,7 @@
 
 import sys # for command line arguments
 from time import time # to time program execution
-from fasta_utilities import *
+from utils.fasta_utilities import *
 
 #Proper Script Usage
 if(len(sys.argv)!=4):

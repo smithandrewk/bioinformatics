@@ -2,7 +2,9 @@
 # date: 100420 @ 17:45
 # file: fasta_utilities.py
 # description: to perform useful functions in relation to analyzing RNA from fasta
-from structures import *
+import sys
+sys.path.append("..")
+from utils.structures import *
 
 def get_next_sequence(infile,outfile,file_mode,searchpattern,offset=0,parent=0):
     """

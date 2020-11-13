@@ -33,7 +33,7 @@ file_name = sys.argv[4]
 #letters to choose from for sequence
 nucleic_acids = ['A','U','C','G']
 #open file object to write to
-file_object = open(file_name,"w")
+file_object = open("../data/"+file_name,"w")
 #initialize empty parent sequence
 parent_sequence = ''
 
