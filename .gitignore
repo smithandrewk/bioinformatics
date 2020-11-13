@@ -1,4 +1,4 @@
 # Data
-data
 a.out
+*.fasta
 __pycache__
