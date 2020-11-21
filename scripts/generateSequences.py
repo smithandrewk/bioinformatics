@@ -4,11 +4,13 @@
 #description: to produce a parent sequence and subsequent sequences with mutations in fasta format for CSCE 555 at UofSC
 
 import sys
+from time import time
 from random import choice
 from random import sample
 from math import ceil
 
 #-----Proper Script Usage-----
+start_time = time()
 if(len(sys.argv)!=5):
     print("Usage: ./generateSequences.py {length of parent sequence} {number of derivative sequences} {percentage of mutations} {output file name}")
     sys.exit(0)
@@ -95,3 +97,4 @@ for i in range(m):
     file_object.write("\n".join(curr_sequence_split)+"\n")
 #close file object
 file_object.close
+print("Execution Time: ",str(time()-start_time)," s")
