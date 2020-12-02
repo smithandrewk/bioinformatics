@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# author : Andrew Smith
+# date : 
+# file : analyze.py
+# description :
 import sys
 from tqdm import tqdm
 from Bio import AlignIO
@@ -19,6 +23,12 @@ for i in tqdm(range(len(parent.seq))):
         if(parent.seq[i]!=record.seq[i]):
             num_muts[i]+=1
     perc_muts.append(num_muts[i]/len(alignment._records[1:])*100)
+snps = [i for i,perc_mut in enumerate(perc_muts) if perc_mut>5]
+outfile = open("snps","w")
+for snp in snps:
+    outfile.write(str(snp)+"\n")
+outfile.close()
+print(len(snps))
 plt.title("Percentage SNPs Against SARS-CoV-2 Reference Sequence in Multiple Sequence Alignment of 193 South Carolina Sequences")
 plt.ylabel("Percentage SNPs")
 plt.xlabel("Residue")
