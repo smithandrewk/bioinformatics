@@ -24,7 +24,7 @@ stdout,stderr = blastnCommandLine()
 
 mutations = []
 hsps = []
-
+es = []
 for query in NCBIXML.parse(open("results.xml")): # for each query sequence
     for alignment in query.alignments: # for every sequence in the blast searchable database
         hsps.append(len(alignment.hsps)) 
@@ -35,9 +35,11 @@ for query in NCBIXML.parse(open("results.xml")): # for each query sequence
                 continue
             else: # mutation contained in this hsp
                 mutations.append(hsp.sbjct[index]) # append to mutations
+                es.append(hsp.expect)
                 # TODO : this magically produces one mutation per alignment. HSPs, ideally, agree on the mutation; therefore, we should check whether they agree, then append for each alignment
 for nucl in set(mutations): # for each type of nucleotide in mutations
     print("%.2f" % (mutations.count(nucl)/len(mutations)*100)+"%",nucl) # print percentage of this nucleotide
+print(mean(hsp.expect))
 
 print("\nExecution Time : ",time()-start_time)
 

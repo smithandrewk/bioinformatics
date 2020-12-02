@@ -2,3 +2,4 @@
 a.out
 *.fasta
 __pycache__
+.idea

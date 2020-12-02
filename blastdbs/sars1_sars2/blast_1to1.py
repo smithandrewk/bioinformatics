@@ -8,6 +8,7 @@ import sys # command line arguments
 from time import time # execution time
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIXML
+from numpy import mean
 
 if(len(sys.argv)!=3):
     print("Usage : ./main.py <DBname> <QueryFile>")
@@ -27,6 +28,7 @@ num_hsps = 0 # number of high scoring pairs in alignment
 total_length = 0
 total_identities = 0
 total_gaps = 0
+es = []
 for query in NCBIXML.parse(open("results.xml")):
     num_queries += 1
     for alignment in query.alignments:
@@ -43,10 +45,11 @@ for query in NCBIXML.parse(open("results.xml")):
             print("E : "+str(hsp.expect)+"%") # percent chance that this high-scoring segment pair would occur by chance
             print("Identities : %d" % hsp.identities +"/"+str(l)+" => "+str(iden_percent)+"%")
             print("Gaps : %d" % hsp.gaps+"/"+str(l)+" => "+str(gap_percent)+"%")
-
+            es.append(hsp.expect)
 identities_weighted = total_identities/total_length
 gaps_weighted = total_gaps/total_length
 print("___________Summary___________")
+print("Expectation: "+str(mean(es)))
 print("Identities Weighted : %.2f" % (identities_weighted*100)+"%")
 print("Gaps Weighted : %.2f" % (gaps_weighted*100)+"%")
 print("Num_HSPs : ",num_hsps)
