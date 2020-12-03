@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-
+# author : Andrew Smith
+# date : 120220 @ 00:42
+# file : clustalo.py
+# description : a useless python script which runs ClustalOmega
 import sys
 from Bio.Align.Applications import ClustalOmegaCommandline
 
