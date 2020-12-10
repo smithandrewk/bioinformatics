@@ -7,11 +7,21 @@
 import sys
 from Bio import SeqIO
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 def get_seq(protein):
     """
 
     """
-    for record in SeqIO.parse("SARS_CoV_2_Protein_Sequences.fasta","fasta"):
+    for record in SeqIO.parse("sequences.fasta","fasta"):
         if(record.id==protein["Protein product"]):
             return record.seq
     print("not found")
@@ -40,24 +50,50 @@ def which_protein(residue):
         elif (residue<int(protein["Stop"])):
             return protein
     return "None"
+def get_protein_for_each_snp():
+    count = {}
+    count["None"]=0
+    for snp in open("snps","r"):
+        if(which_protein(int(snp))=="None"):
+            count["None"] += 1
+            continue
+        if(which_protein(int(snp))["Protein product"] not in count):
+            count[which_protein(int(snp))["Protein product"]] = 1
+        else:
+            count[which_protein(int(snp))["Protein product"]] += 1
+    for key in count:
+        print(key,count[key])
+def get_codon_wrt_protein(protein,snp):
+    aa_index = (snp-int(protein["Start"]))//3
+    codon_index = (snp-int(protein["Start"])) % 3
+    nucl_index = (aa_index*3)+int(protein["Start"])
+    record = SeqIO.read("Sars_CoV_2","fasta")
+    codon = record.seq[nucl_index:nucl_index+3]
+    print(aa_index)
+    aa = get_seq(protein)[aa_index-1]
+    return codon, codon_index,aa
 
-if(len(sys.argv)!=2):
-    print("Usage: ./main.py <infile>")
-    sys.exit()
-
-infile = sys.argv[1]
-
-header,proteome = get_proteome(infile)
-protein = which_protein(500)
-count = {}
-count["None"]=0
-for snp in open("snps","r"):
-    if(which_protein(int(snp))=="None"):
-        count["None"] += 1
-        continue
-    if(which_protein(int(snp))["Protein product"] not in count):
-        count[which_protein(int(snp))["Protein product"]] = 1
-    else:
-        count[which_protein(int(snp))["Protein product"]] += 1
-for key in count:
-    print(key,count[key])
+#if(len(sys.argv)!=3):
+#    print("Usage: ./main.py <infile> <snp index>")
+#    sys.exit()
+#
+#infile = sys.argv[1]
+#snp = int(sys.argv[2])
+#
+#header,proteome = get_proteome(infile)
+#Sars_CoV_2 = SeqIO.read("Sars_CoV_2","fasta")
+#for snp in open("snps","r"):    
+#    print("____________________")
+#    snp = int(snp)
+#    print(snp)
+#    protein = which_protein(snp)
+#    if(protein == "None"):
+#        print("Not in protein")
+#    else:
+#        codon, codon_index,aa = get_codon_wrt_protein(protein,snp)
+#        for i,nucl in enumerate(codon):
+#            if(i==codon_index):
+#                print(bcolors.FAIL + nucl + bcolors.ENDC,end='')
+#            else:
+#                print(nucl,end='')
+#        print("-->",aa)
