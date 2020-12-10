@@ -13,7 +13,7 @@ if(len(sys.argv)!=2):
 infile = sys.argv[1]
 alignment = AlignIO.read(infile,"fasta")
 ref = alignment._records[0]
-
+print(ref.seq)
 num_muts = []
 perc_muts = []
 
