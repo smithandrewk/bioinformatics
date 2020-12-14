@@ -2,7 +2,6 @@
 from utils import *
 import operator
 from Bio.Seq import Seq
-import matplotlib.pyplot as plt
 
 if(len(sys.argv)!=1):
     print("Usage: ./main.py")
